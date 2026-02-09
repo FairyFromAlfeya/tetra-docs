@@ -12,9 +12,11 @@
         "@ton/core": "~0"
     },
     "devDependencies": {
+        "@ton-api/client": "^0.2.0",
         "@ton/blueprint": ">=0.40.0",
         "@ton/sandbox": ">=0.37.0",
         "@ton/test-utils": ">=0.11.0",
+        "@tychosdk/emulator": "^0.2.6",
         "@types/jest": "^30.0.0",
         "@types/node": "^22.17.2",
         "jest": "^30.0.5",

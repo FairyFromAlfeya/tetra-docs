@@ -1,8 +1,10 @@
 import { Blockchain, SandboxContract, TreasuryContract } from '@ton/sandbox';
-import { Cell, toNano } from '@ton/core';
+import { Cell, toNano, Address } from '@ton/core';
 import { Sample } from '../wrappers/Sample';
 import '@ton/test-utils';
 import { compile } from '@ton/blueprint';
+import { TonApiClient } from '@ton-api/client';
+import { TychoExecutor } from '@tychosdk/emulator';
 
 describe('Sample', () => {
     let code: Cell;
@@ -16,7 +18,18 @@ describe('Sample', () => {
     let sample: SandboxContract<Sample>;
 
     beforeEach(async () => {
-        blockchain = await Blockchain.create();
+        const tonapi = new TonApiClient({ baseUrl: 'https://tetra.tonapi.io/' });
+
+        const configAccount = await tonapi.blockchain.getBlockchainRawAccount(
+            Address.parse('-1:5555555555555555555555555555555555555555555555555555555555555555'),
+        );
+
+        const config = configAccount.data!.asSlice().loadRef();
+
+        blockchain = await Blockchain.create({
+            executor: await TychoExecutor.create(),
+            config,
+        });
 
         sample = blockchain.openContract(
             Sample.createFromConfig(
@@ -24,8 +37,8 @@ describe('Sample', () => {
                     id: 0,
                     counter: 0,
                 },
-                code
-            )
+                code,
+            ),
         );
 
         deployer = await blockchain.treasury('deployer');
@@ -40,42 +53,25 @@ describe('Sample', () => {
         });
     });
 
-    it('should deploy', async () => {
-        // the check is done inside beforeEach
-        // blockchain and sample are ready to use
-    });
-
     it('should increase counter', async () => {
-        const increaseTimes = 3;
-        for (let i = 0; i < increaseTimes; i++) {
-            console.log(`increase ${i + 1}/${increaseTimes}`);
+        const increaser = await blockchain.treasury('increaser');
 
-            const increaser = await blockchain.treasury('increaser' + i);
+        const counterBefore = await sample.getCounter();
+        const increaseBy = Math.floor(Math.random() * 100);
 
-            const counterBefore = await sample.getCounter();
+        const increaseResult = await sample.sendIncrease(increaser.getSender(), {
+            increaseBy,
+            value: toNano('0.05'),
+        });
 
-            console.log('counter before increasing', counterBefore);
+        expect(increaseResult.transactions).toHaveTransaction({
+            from: increaser.address,
+            to: sample.address,
+            success: true,
+        });
 
-            const increaseBy = Math.floor(Math.random() * 100);
+        const counterAfter = await sample.getCounter();
 
-            console.log('increasing by', increaseBy);
-
-            const increaseResult = await sample.sendIncrease(increaser.getSender(), {
-                increaseBy,
-                value: toNano('0.05'),
-            });
-
-            expect(increaseResult.transactions).toHaveTransaction({
-                from: increaser.address,
-                to: sample.address,
-                success: true,
-            });
-
-            const counterAfter = await sample.getCounter();
-
-            console.log('counter after increasing', counterAfter);
-
-            expect(counterAfter).toBe(counterBefore + increaseBy);
-        }
+        expect(counterAfter).toBe(counterBefore + increaseBy);
     });
 });

@@ -4,6 +4,7 @@ build
 dist
 .DS_Store
 package.ts
+gas-report.json
 
 # VS Code
 .vscode/*
