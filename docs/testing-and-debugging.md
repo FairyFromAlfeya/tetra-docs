@@ -1,6 +1,6 @@
-# Testing and debugging TON Smart Contracts with Tycho Executor
+# Testing and debugging Tetra Smart Contracts with Tycho Executor
 
-Short guide on how to test and debug TON smart contracts using `@ton/sandbox` with a custom `TychoExecutor` and on‑chain network config.
+Short guide on how to test and debug Tetra smart contracts using `@ton/sandbox` with a custom `TychoExecutor` and on‑chain network config.
 
 ---
 
@@ -52,7 +52,7 @@ const op::increase = "op::increase"c; ;; create an opcode from string using the 
 ;; storage variables
 
 ;; id is required to be able to create different instances of counters
-;; since addresses in TON depend on the initial state of the contract
+;; since addresses in TVM depend on the initial state of the contract
 global int ctx_id;
 global int ctx_counter;
 
@@ -218,7 +218,7 @@ describe('Sample', () => {
   - Keep each test isolated by creating a fresh Blockchain in beforeEach.
 
 
-## 5. Full TON testing documentation
+## 5. Full testing documentation
 
-For all details about TON testing, Sandbox and Blueprint, see:
+For all details about testing, Sandbox and Blueprint, see:
 https://docs.ton.org/contract-dev/testing/overview
