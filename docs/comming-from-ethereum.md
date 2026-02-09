@@ -6,7 +6,7 @@ This document briefly highlights how Tetra differs from EVM‑based blockchains 
 
 - Tetra L2 uses its own **TVM** virtual machine (compatible with TON Virtual Machine), not EVM, so bytecode, opcodes, and tooling are different.
 - TVM contracts interact through asynchronous messages; Ethereum contracts call each other synchronously inside one transaction.
-- TVM has its own languages (Tolk, FunC, Fift, Tact)
+- TVM has its own languages (Tolk, FunC, Fift, Tact, TVM Solidity)
 
 ## Execution and accounts
 
@@ -16,13 +16,13 @@ This document briefly highlights how Tetra differs from EVM‑based blockchains 
 
 ## TVM vs EVM (short table)
 
-| Aspect           | Tetra (TVM)                         | Ethereum (EVM)                        |
-|------------------|-------------------------------------|---------------------------------------|
-| VM               | TVM, own instruction set            | EVM                                   |
-| Execution model  | Asynchronous messages               | Synchronous call tree                 |
-| Accounts         | Any account can have code + balance | EOAs vs contract accounts             |
-| Languages        | Tolk, FunC, Fift, Tact              | Solidity, Vyper                       |
-| Compatibility    | Not EVM‑compatible by default       | Native EVM                            |
+| Aspect           | Tetra (TVM)                          | Ethereum (EVM)                        |
+|------------------|--------------------------------------|---------------------------------------|
+| VM               | TVM, own instruction set             | EVM                                   |
+| Execution model  | Asynchronous messages                | Synchronous call tree                 |
+| Accounts         | Any account can have code + balance  | EOAs vs contract accounts             |
+| Languages        | Tolk, FunC, Fift, Tact, TVM Solidity | Solidity, Vyper                       |
+| Compatibility    | Not EVM‑compatible by default        | Native EVM                            |
 
 ## Where to read more
 
