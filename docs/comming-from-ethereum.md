@@ -4,7 +4,7 @@ This document briefly highlights how Tetra differs from EVM‑based blockchains 
 
 ## Main differences
 
-- Tetra uses its own **TVM** virtual machine, not EVM, so bytecode, opcodes, and tooling are different.
+- Tetra L2 uses its own **TVM** virtual machine (compatible with TON Virtual Machine), not EVM, so bytecode, opcodes, and tooling are different.
 - TVM contracts interact through asynchronous messages; Ethereum contracts call each other synchronously inside one transaction.
 - TVM has its own languages (Tolk, FunC, Fift, Tact)
 
